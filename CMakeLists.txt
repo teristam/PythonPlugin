@@ -1,4 +1,11 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.5.0)
+if (NOT DEFINED GUI_BASE_DIR)
+    if (DEFINED ENV{GUI_BASE_DIR})
+        set(GUI_BASE_DIR $ENV{GUI_BASE_DIR})
+    else()
+        set(GUI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../plugin-GUI)
+    endif()
+endif()
 project(PythonPlugin)
 
 set(PLUGIN_NAME PythonPlugin)
@@ -26,7 +33,8 @@ message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
     # -DPYTHON_HOME
 find_package(PythonInterp REQUIRED)
 find_package(PythonLibs REQUIRED)
-set(PYTHON_HOME $ENV{CONDA_PREFIX} CACHE PATH "Where is the root of your python installation?")
+#set(PYTHON_HOME $ENV{CONDA_PREFIX} CACHE PATH "Where is the root of your python installation?")
+set(PYTHON_HOME $ENV{CONDA_HOME} CACHE PATH "Where is the root of your python installation?")
 get_filename_component(PYTHON_LIB_DIR ${PYTHON_LIBRARIES} DIRECTORY)
 message(STATUS "Python home: " ${PYTHON_HOME})
 message(STATUS "Python executable: " ${PYTHON_EXECUTABLE})
@@ -53,19 +61,8 @@ set(PYTHON_PATH "${ORIG_PY_PATH}${PY_PATH_SEP}${NATIVE_PLUGIN_MODULES_PATH}" CAC
 message(STATUS "ORIG PYTHONPATH: " ${ORIG_PY_PATH})
 message(STATUS "PYTHONPATH: " ${PYTHON_PATH})
 
-# we need to know where the open ephys source is
-set(OPEN_EPHYS_DIR "" CACHE PATH "Where is the Open Ephys repo's base directory?")
-string(STRIP "${OPEN_EPHYS_DIR}" OPEN_EPHYS_DIR)
-if(NOT OPEN_EPHYS_DIR)
-    message(FATAL_ERROR, "OPEN_EPHYS_DIR not specified... please set using ccmake or use -DOPEN_EPHYS_DIR.")
-    return()
-else()
-    get_filename_component(OPEN_EPHYS_DIR ${OPEN_EPHYS_DIR} ABSOLUTE)
-    message("Open Ephys Source: " ${OPEN_EPHYS_DIR})
-endif()
-
 # put together path for common plugin libraries
-get_filename_component(COMMON_DIR ${OPEN_EPHYS_DIR}/Source/Plugins/CommonLibs ABSOLUTE)
+get_filename_component(COMMON_DIR ${GUI_BASE_DIR}/Plugins/CommonLibs ABSOLUTE)
 message("CommonLibs: " ${COMMON_DIR})
 
 # add project dir to module path so the library finding .cmake files are found
@@ -76,7 +73,7 @@ file(GLOB PLUGIN_HEADER_FILES "PythonPlugin/*.h")
 set(HEADER_FILES "${PLUGIN_HEADER_FILES}")
 
 # our c and cpp files
-file(GLOB PLUGIN_SOURCES "PythonPlugin/*.cpp" "PythonPlugin/*.c")
+file(GLOB PLUGIN_SOURCES "Source/*.cpp" "Source/*.c")
 set(SOURCES "${PLUGIN_SOURCES}")
 
 # generate shared library
@@ -113,9 +110,9 @@ target_include_directories(${PLUGIN_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/PythonPlugin>
         $<INSTALL_INTERFACE:include>
-        ${OPEN_EPHYS_DIR}/JuceLibraryCode
-        ${OPEN_EPHYS_DIR}/JuceLibraryCode/modules
-        ${OPEN_EPHYS_DIR}/Source/Plugins/Headers
+        ${GUI_BASE_DIR}/JuceLibraryCode
+        ${GUI_BASE_DIR}/JuceLibraryCode/modules
+        ${GUI_BASE_DIR}/Plugins/Headers
         ${PYTHON_INCLUDE_DIRS}
     )
 
@@ -209,7 +206,7 @@ elseif(LINUX)
     file(GLOB LIBFREETYPE2_HEADER_FILES "${LIBFREETYPE2_INCLUDE_DIRS}/libserialport.h")
 
     # install into the open ephy plugins directory
-    get_filename_component(OE_PLUGIN_DIR ${OPEN_EPHYS_DIR}/Builds/Linux/build/plugins ABSOLUTE)
+    get_filename_component(OE_PLUGIN_DIR ${GUI_BASE_DIR}/Builds/Linux/build/plugins ABSOLUTE)
     SET(CMAKE_INSTALL_PREFIX
         ${OE_PLUGIN_DIR}
         CACHE PATH
@@ -286,7 +283,7 @@ elseif(WIN32)
     # TODO: this is surely broken... fix it (if you ever need to)
 
     # install into the open ephy plugins directory
-    get_filename_component(OE_PLUGIN_DIR ${OPEN_EPHYS_DIR}/Builds/Linux/build/plugins ABSOLUTE)
+    get_filename_component(OE_PLUGIN_DIR ${GUI_BASE_DIR}/Build/plugins ABSOLUTE)
     SET(CMAKE_INSTALL_PREFIX
         ${OE_PLUGIN_DIR}
         CACHE PATH
