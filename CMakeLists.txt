@@ -159,7 +159,7 @@ elseif(WIN32)
 
     set(CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../libs)
     
-    set_target_properties(${PLUGIN_NAME} PROPERTIES VS_USER_PROPS "C:\\Users\\anjal.doshi\\projects\\OEPlugins\\PythonPlugin\\Utils\\PythonEnv.props")
+    set_target_properties(${PLUGIN_NAME} PROPERTIES VS_USER_PROPS "C:\\Users\\pavel.kulik\\Projects\\OpenEphys\\OEPlugins\\PythonPlugin\\Utils\\PythonEnv.props")
 
     # target_link_libraries(${PLUGIN_NAME} debug ${LIBSERIAL_LIBRARIES} "setupapi.lib" )
     # target_link_libraries(${PLUGIN_NAME} optimized ${LIBSERIAL_LIBRARIES} "setupapi.lib")
