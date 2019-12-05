@@ -676,22 +676,22 @@ static PyThreadState *startInterpreter()
 #define PYTHON_PATH_NAME STR(PYTHON_PATH)
 #endif
 
-    char *old_python_home = getenv("PYTHONHOME");
+    char *old_python_home = getenv("PYTHON_HOME");
     if (old_python_home == NULL || strcmp(old_python_home, PYTHON_HOME_NAME) != 0)
     {
 #ifdef PYTHON_DEBUG
-        std::cout << "setting PYTHONHOME" << std::endl;
+        std::cout << "setting PYTHON_HOME" << std::endl;
 #endif
 
 #ifdef _WIN32
-        _putenv_s("PYTHONHOME", PYTHON_HOME_NAME);
+        _putenv_s("PYTHON_HOME", PYTHON_HOME_NAME);
 #else
-        setenv("PYTHONHOME", PYTHON_HOME_NAME, 1);
+        setenv("PYTHON_HOME", PYTHON_HOME_NAME, 1);
 #endif
     }
 
 #ifdef PYTHON_DEBUG
-    std::cout << "PYTHONHOME: " << getenv("PYTHONHOME") << std::endl;
+    std::cout << "PYTHON_HOME: " << getenv("PYTHON_HOME") << std::endl;
 #endif
 
 #ifdef _WIN32
