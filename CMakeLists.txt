@@ -152,14 +152,14 @@ elseif(LINUX)
 	
 	install(TARGETS ${PLUGIN_NAME} LIBRARY DESTINATION ${GUI_BIN_DIR}/plugins)
 elseif(WIN32)
+    add_definitions(-DPYTHON_HOME_NAME="C:\/Anaconda3")
     target_link_libraries(${PLUGIN_NAME} ${GUI_BIN_DIR}/open-ephys.lib)
 	target_compile_options(${PLUGIN_NAME} PRIVATE /sdl-)
 	
 	install(TARGETS ${PLUGIN_NAME} RUNTIME DESTINATION ${GUI_BIN_DIR}/plugins  CONFIGURATIONS ${CMAKE_CONFIGURATION_TYPES})
 
     set(CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../libs)
-    
-    set_target_properties(${PLUGIN_NAME} PROPERTIES VS_USER_PROPS "C:\\Users\\pavel.kulik\\Projects\\OpenEphys\\OEPlugins\\PythonPlugin\\Utils\\PythonEnv.props")
+
 
     # target_link_libraries(${PLUGIN_NAME} debug ${LIBSERIAL_LIBRARIES} "setupapi.lib" )
     # target_link_libraries(${PLUGIN_NAME} optimized ${LIBSERIAL_LIBRARIES} "setupapi.lib")
