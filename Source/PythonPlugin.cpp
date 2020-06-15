@@ -671,7 +671,7 @@ static PyThreadState *startInterpreter()
     // if on windows, PYTHON_HOME_NAME is set by PythonEnv.props (corresponds to CONDA_HOME environment variable)
 #define QUOTE(name) #name
 #define STR(macro) QUOTE(macro)
-#define PYTHON_PATH_NAME STR(PYTHON_PATH
+#define PYTHON_PATH_NAME STR(PYTHON_PATH)
 #define PYTHON_HOME_NAME STR(PYTHON_HOME)
 
 
@@ -695,7 +695,7 @@ static PyThreadState *startInterpreter()
 
 #ifdef _WIN32
     // set PYTHONPATH to avoid error described here: https://stackoverflow.com/questions/5694706/py-initialize-fails-unable-to-load-the-file-system-codec
-    _putenv_s("PYTHONPATH", PYTHON_HOME_NAME "\\DLLs;" PYTHON_HOME_NAME "\\Lib;" PYTHON_HOME_NAME "\\Lib\\site-packages");
+    _putenv_s("PYTHONPATH", PYTHON_HOME_NAME "/DLLs;" PYTHON_HOME_NAME "/Lib;" PYTHON_HOME_NAME "/Lib/site-packages");
 #else
     setenv("PYTHONPATH", PYTHON_PATH_NAME, 1);
 #endif

@@ -1,8 +1,15 @@
 # PythonPlugin
 
+**Warning- this fork is under heavy development and may not work**
+
 A plugin for open-ephys enabling the insertion of Cython (Python code translated to C and compiled) into the open-ephys signal chain.
 Most of the Cython peculiarities are dealt with by a wrapper code, so that essentially usual, "pure" Python code may be used.
 A tutorial on how to write a python module can be found below. Example modules can be found under the `python-modules` directory.
+
+- Need to define `GUI_BASE_DIR` directly
+- Use `CONDA_HOME` to point to your conda environment
+
+
 
 ## Installation Instruction
 
