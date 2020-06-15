@@ -152,7 +152,7 @@ elseif(LINUX)
 	
 	install(TARGETS ${PLUGIN_NAME} LIBRARY DESTINATION ${GUI_BIN_DIR}/plugins)
 elseif(WIN32)
-    add_definitions(-DPYTHON_HOME_NAME="C:\/Anaconda3")
+    # add_definitions(-DPYTHON_HOME_NAME="C:\/Anaconda3")
     target_link_libraries(${PLUGIN_NAME} ${GUI_BIN_DIR}/open-ephys.lib)
 	target_compile_options(${PLUGIN_NAME} PRIVATE /sdl-)
 	

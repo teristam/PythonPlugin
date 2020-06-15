@@ -669,12 +669,11 @@ PythonPlugin::PythonLock::~PythonLock()
 static PyThreadState *startInterpreter()
 {
     // if on windows, PYTHON_HOME_NAME is set by PythonEnv.props (corresponds to CONDA_HOME environment variable)
-#ifndef _WIN32
 #define QUOTE(name) #name
 #define STR(macro) QUOTE(macro)
+#define PYTHON_PATH_NAME STR(PYTHON_PATH
 #define PYTHON_HOME_NAME STR(PYTHON_HOME)
-#define PYTHON_PATH_NAME STR(PYTHON_PATH)
-#endif
+
 
     char *old_python_home = getenv("PYTHON_HOME");
     if (old_python_home == NULL || strcmp(old_python_home, PYTHON_HOME_NAME) != 0)
